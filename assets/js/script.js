@@ -263,7 +263,7 @@ function calculateBastones() {
     const L_empalme = parseFloat(document.getElementById('baston-empalme-largo').value);
     const PATA_CM = 20;
 
-    const N_tramos = Math.ceil(H_pared / VARILLA_LARGO_M);
+    const N_tramos = Math.ceil(H_pared / 2.195);
     const N_empalmes = (N_tramos === 1 && H_pared < 2.8) ? 1 : N_tramos;
 
     const Largo_Baston_m = H_pared + (N_empalmes * L_empalme) + (PATA_CM / 100);
