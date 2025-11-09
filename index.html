@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Construcción</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-hard-hat"></i> ConstruVásquez</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#calc">Calculadora</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#proyectos">Proyectos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="hero text-center">
+            <h1 class="display-4 fw-bold text-white mb-3">
+                <i class="fas fa-calculator"></i> Calculadora de Hierro
+            </h1>
+            <p class="lead text-white-50">Calcula con precisión los materiales para tu proyecto</p>
+        </div>
+
+        <div id="calc">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">
+                        <i class="fas fa-tools"></i> Cálculo de Columnas
+                    </h2>
+
+                    <div class="form-check form-switch mb-4">
+                        <input class="form-check-input" type="checkbox" id="add-bastones-check" onchange="toggleBastonForm()">
+                        <label class="form-check-label fw-bold" for="add-bastones-check">
+                            ¿Incluir cálculo de Bastones?
+                        </label>
+                    </div>
+
+                    <div id="column-forms-container"></div>
+
+                    <button class="btn btn-success w-100 w-md-auto mb-3" onclick="addColumnForm()">
+                        <i class="fas fa-plus"></i> Agregar Nueva Columna
+                    </button>
+
+                    <div id="baston-form-container" class="card p-3 mt-4" style="display: none;">
+                        <h5 class="text-primary"><i class="fas fa-ruler"></i> Cálculo de Bastones</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6 col-12">
+                                <label class="form-label">Metros Lineales Totales (m)</label>
+                                <input type="number" id="baston-metros" class="form-control" value="10" min="0.1" step="0.1">
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label class="form-label">Altura de la Pared (m)</label>
+                                <input type="number" id="baston-altura" class="form-control" value="3.0" min="0.1" step="0.1">
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <label class="form-label">Grosor del Bastón</label>
+                                <select id="baston-grosor" class="form-select">
+                                    <option value="1/4">1/4"</option>
+                                    <option value="3/8" selected>3/8"</option>
+                                    <option value="1/2">1/2"</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <label class="form-label">Distancia entre Bastones (m)</label>
+                                <input type="number" id="baston-distancia" class="form-control" value="0.80" min="0.1" step="0.01">
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <label class="form-label">Largo de cada Empalme (m)</label>
+                                <input type="number" id="baston-empalme-largo" class="form-control" value="0.50" min="0.01" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-lg w-100 mt-4" onclick="calculateAll()">
+                        <i class="fas fa-calculator"></i> Calcular Materiales
+                    </button>
+                </div>
+            </div>
+
+            <div id="results-container" style="display: none;">
+                <div class="result-box">
+                    <h3 class="text-center text-warning mb-4">
+                        <i class="fas fa-chart-bar"></i> Resultados del Cálculo
+                    </h3>
+
+                    <div class="row text-center mb-4">
+                        <div class="col-md-4 mb-3">
+                            <div class="result-item">
+                                <h5 class="text-primary">Metros Totales</h5>
+                                <h2 id="total-metros" class="text-white">0.00 m</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="result-item">
+                                <h5 class="text-primary">Varillas Totales</h5>
+                                <h2 id="total-varillas" class="text-white">0</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="result-item">
+                                <h5 class="text-primary">Quintales Totales</h5>
+                                <h2 id="total-quintales" class="text-white">0.00 Q</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="text-success mb-3">
+                        <i class="fas fa-balance-scale"></i> Distribución por Grosor
+                    </h4>
+                    <div id="quintales-results" class="mb-4"></div>
+
+                    <h4 class="text-warning mb-3">
+                        <i class="fas fa-list"></i> Detalle por Cálculo
+                    </h4>
+                    <div id="individual-results-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div id="proyectos" class="mt-5">
+            <h2 class="text-center text-white mb-4">
+                <i class="fas fa-building"></i> Nuestros Proyectos
+            </h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400" alt="Proyecto 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Residencial Las Palmas</h5>
+                            <p class="card-text text-white-50">Complejo residencial de 50 viviendas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400" alt="Proyecto 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Torre Corporativa Central</h5>
+                            <p class="card-text text-white-50">Edificio de 15 pisos en zona empresarial</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=400" alt="Proyecto 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Centro Comercial Plaza</h5>
+                            <p class="card-text text-white-50">Complejo comercial con estacionamiento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div id="contacto" class="mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">
+                        <i class="fas fa-envelope"></i> Contáctanos
+                    </h2>
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" placeholder="Tu nombre">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="tu@email.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" placeholder="0000-0000">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Asunto</label>
+                                <input type="text" class="form-control" placeholder="Motivo de consulta">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Mensaje</label>
+                                <textarea class="form-control" rows="4" placeholder="Cuéntanos sobre tu proyecto..."></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-paper-plane"></i> Enviar Mensaje
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/50372716538" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <p class="mb-0">&copy; 2025 ConstructoraVásquez. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
