@@ -164,7 +164,7 @@
             </div>
         </div> -->
 
-        <div id="contacto" class="mt-5">
+        <!-- <div id="contacto" class="mt-5">
             <div class="card">
                 <div class="card-body">
                     <h2 class="text-center mb-4">
@@ -202,7 +202,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <a href="https://wa.me/50372716538" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
@@ -211,6 +211,35 @@
     <footer class="bg-dark text-white text-center py-4 mt-5">
         <p class="mb-0">&copy; 2025 ConstructoraVásquez. Todos los derechos reservados.</p>
     </footer>
+
+    <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark border border-danger">
+                <div class="modal-header border-danger">
+                    <h5 class="modal-title text-warning" id="deleteModalLabel">
+                        <i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-white">
+                    <p class="mb-2">¿Estás seguro de que deseas eliminar esta columna?</p>
+                    <p class="text-warning fw-bold mb-0">
+                        <i class="fas fa-info-circle"></i> <span id="deleteModalColumnName"></span>
+                    </p>
+                    <small class="text-muted d-block mt-3">Esta acción no se puede deshacer.</small>
+                </div>
+                <div class="modal-footer border-danger">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="executeDelete()">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/script.js"></script>

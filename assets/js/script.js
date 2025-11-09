@@ -13,6 +13,7 @@ const DOBLEZ_CORRECCION = {
 };
 
 let calculationId = 0;
+let pendingDeleteId = null;
 
 function varillasToQuintales(varillas, grosor) {
     const varillasPorQuintal = QUINTAL_CONVERSION[grosor];
@@ -74,7 +75,7 @@ function generateColumnFormHTML(id) {
                 <h5 class="text-primary mb-0">
                     <i class="fas fa-columns"></i> Columna #${id}
                 </h5>
-                <button type="button" class="btn btn-sm btn-danger" onclick="removeColumnForm(${id})">
+                <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete(${id})">
                     <i class="fas fa-trash"></i> Eliminar
                 </button>
             </div>
@@ -134,6 +135,23 @@ function addColumnForm() {
     calculationId++;
     const container = document.getElementById('column-forms-container');
     container.insertAdjacentHTML('beforeend', generateColumnFormHTML(calculationId));
+}
+
+function confirmDelete(id) {
+    pendingDeleteId = id;
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    const columnTitle = document.getElementById(`col-${id}-title`)?.value || `Columna #${id}`;
+    document.getElementById('deleteModalColumnName').textContent = columnTitle;
+    modal.show();
+}
+
+function executeDelete() {
+    if (pendingDeleteId !== null) {
+        removeColumnForm(pendingDeleteId);
+        pendingDeleteId = null;
+    }
+    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+    modal.hide();
 }
 
 function removeColumnForm(id) {
