@@ -42,7 +42,7 @@ function generateDynamicFields(type, id) {
                 <input type="number" id="col-${id}-alto" class="form-control" value="20" min="5" step="1">
             </div>
         `;
-    } else if (type === 'Cangrejo') {
+    } else if (type === 'Alacran') {
         html += `
             <div class="col-md-6 col-12">
                 <label class="form-label">Ancho del Estribo (cm)</label>
@@ -88,8 +88,8 @@ function generateColumnFormHTML(id) {
                 <div class="col-md-6 col-lg-3">
                     <label class="form-label">Tipo de Columna</label>
                     <select id="col-${id}-type" class="form-select" onchange="updateDynamicFields(${id})">
-                        <option value="Normal" selected>Normal</option>
-                        <option value="Cangrejo">Cangrejo (2 Var.)</option>
+                        <option value="Normal" selected>Normal (+4 Var.)</option>
+                        <option value="Alacran">Alacran (2 Var.)</option>
                         <option value="Triangular">Triangular (3 Var.)</option>
                     </select>
                 </div>
@@ -192,7 +192,7 @@ function calculateColumn(id) {
         N_dobleces = 4;
         gancho_cm = 6;
         Perimetro_Estribo_cm = (2 * (Ancho + Alto));
-    } else if (type === 'Cangrejo') {
+    } else if (type === 'Alacran') {
         N_varillas_col = 2;
         const Ancho = parseFloat(document.getElementById(`col-${id}-ancho`).value);
         N_dobleces = 2;
